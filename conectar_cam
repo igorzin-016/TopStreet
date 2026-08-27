@@ -1,0 +1,43 @@
+import { supabase } from '../lib/supabase' // Ajuste o caminho conforme a sua pasta
+
+// Função que será chamada assim que a câmera ler o QR Code
+async function processarCheckin(codigoLido: string) {
+  try {
+    // 1. Busca o piloto no banco para ver se o QR Code é válido
+    const { data: piloto, error: erroBusca } = await supabase
+      .from('pilotos')
+      .select('*')
+      .eq('codigo_qr', codigoLido)
+      .single()
+
+    if (erroBusca || !piloto) {
+      alert('QR Code inválido ou piloto não encontrado!')
+      return
+    }
+
+    if (piloto.status_checkin) {
+      alert(`O piloto ${piloto.nome_completo} já fez o check-in anteriormente!`)
+      return
+    }
+
+    // 2. Atualiza o status do piloto para "Credenciado" (true)
+    const { error: erroAtualizacao } = await supabase
+      .from('pilotos')
+      .update({ 
+        status_checkin: true, 
+        data_checkin: new Date().toISOString() 
+      })
+      .eq('id', piloto.id)
+
+    if (erroAtualizacao) {
+      alert('Erro ao confirmar check-in. Tente novamente.')
+      return
+    }
+
+    // 3. Sucesso!
+    alert(`Check-in de ${piloto.nome_completo} (${piloto.veiculo}) realizado com sucesso! Acesso liberado.`)
+    
+  } catch (error) {
+    console.error('Erro na operação:', error)
+  }
+}

@@ -1,0 +1,49 @@
+1. A Jornada do Piloto (Autoatendimento)
+O objetivo aqui é que o piloto resolva tudo sozinho e rápido no celular, sem atrito.
+
+Tela 1: Landing Page (A sua imagem)
+
+O piloto acessa o site, lê as regras e clica no botão verde INSCREVER VEÍCULO / CREDENCIAMENTO.
+
+Tela 2: Formulário de Inscrição (/inscricao)
+
+Visual: Fundo escuro (mesmo padrão da home). Um formulário limpo, em uma única coluna.
+
+Campos: Nome Completo, CPF, Veículo (Ex: Peugeot 208 Active 1.6), Número do Carro e um menu seletor para a Categoria (ex: Track Day, Arrancada).
+
+Ação: Botão largo no final "GERAR PASSAPORTE DIGITAL". Ao clicar, o sistema salva os dados no Supabase e gera um código único.
+
+Tela 3: Passaporte Digital (/passaporte)
+
+Visual: Uma tela de sucesso simulando um ingresso VIP.
+
+Conteúdo: Um QR Code grande e nítido no centro. Abaixo dele, em texto claro: Nome, Carro, Categoria e Status: "Aguardando Vistoria".
+
+Ação: Um botão "Baixar Ingresso" ou "Tirar Print" para ele salvar na galeria e apresentar no portão de Tarumã.
+
+2. A Jornada da Organização (Fiscal de Pista)
+O objetivo aqui é velocidade extrema. O fiscal não tem tempo para clicar em menus complexos enquanto a fila de carros cresce.
+
+Tela 1: Login Restrito (/admin)
+
+Visual: Tela minimalista. Apenas a logo e um campo de senha numérica (PIN).
+
+Função: Evita que curiosos acessem o banco de dados. O fiscal digita a senha e entra.
+
+Tela 2: Dashboard do Scanner (/admin/scanner)
+
+Visual: A tela é 80% ocupada pela câmera do celular aberta. Os 20% inferiores exibem uma barra escura com o status "Aguardando leitura...".
+
+Função: O fiscal aponta o celular para o celular do piloto (onde está o celular dele com o QR Code).
+
+Tela 3: Feedback de Leitura (Pop-up Instantâneo)
+
+Ao ler o QR Code, a câmera pausa e um painel sobrepõe a tela na mesma hora:
+
+Cenário Verde (Acesso Liberado): Nome do Piloto, Carro e Categoria confirmados no banco de dados. Um botão gigante "CONFIRMAR CHECK-IN" atualiza o Supabase e libera a catraca/cancela.
+
+Cenário Vermelho (Erro): Se o piloto já passou, a tela fica com bordas vermelhas avisando "ALERTA: Check-in já realizado às 08:14".
+
+Tela 4: Painel de Controle (Opcional pro MVP)
+
+Uma lista simples mostrando total de inscritos vs. total de check-ins realizados no dia, para a organização saber quem falta chegar.

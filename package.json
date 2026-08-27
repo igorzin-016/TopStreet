@@ -20,9 +20,9 @@
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "@vitejs/plugin-react": "latest",
-    "lightningcss-win32-x64-msvc": "^1.33.0",
     "tailwindcss": "latest",
     "typescript": "latest",
     "vite": "latest"
   }
 }
+git add .

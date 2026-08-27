@@ -388,7 +388,7 @@ function Hero({ innerRef, onNavigate }) {
 
         <div className="flex flex-col sm:flex-row items-center gap-4">
           <button
-            onClick={() => onNavigate("contato")}
+            onClick={() => { window.location.href = "/inscricao"; }}
             className="ts-display uppercase tracking-wide text-sm font-semibold px-8 py-4 transition-transform duration-200 hover:scale-[1.04]"
             style={{
               background: C.red,
@@ -396,7 +396,7 @@ function Hero({ innerRef, onNavigate }) {
               clipPath: "polygon(6% 0, 100% 0, 94% 100%, 0 100%)",
             }}
           >
-            Garantir Ingresso →
+            Inscrever veículo →
           </button>
           <button
             onClick={() => onNavigate("sobre")}
@@ -704,6 +704,7 @@ function Pilotos({ innerRef }) {
             </div>
 
             <button
+              onClick={() => { window.location.href = "/inscricao"; }}
               className="mt-10 w-full ts-display uppercase tracking-wide text-sm font-bold px-8 py-5 transition-transform duration-200 hover:scale-[1.02] flex items-center justify-center gap-2"
               style={{
                 background: C.green,

@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+:root {
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  color: #f8fafc;
+  background: #09090b;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: #09090b;
+}
+
+.font-display { font-family: "Space Grotesk", "Inter", sans-serif; }
+.hero-grid { position: absolute; inset: 0; opacity: .23; background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size: 54px 54px; mask-image: linear-gradient(to bottom, black, transparent 78%); }
+.hero-glow { position: absolute; border-radius: 9999px; filter: blur(80px); pointer-events: none; }
+.hero-glow-green { width: 28rem; height: 18rem; right: -12rem; top: 16%; background: rgba(0,229,96,.08); }
+.hero-glow-blue { width: 22rem; height: 20rem; left: -13rem; bottom: 8%; background: rgba(55,110,255,.07); }
+.hero-particle { position: absolute; width: 2px; height: 2px; border-radius: 9999px; background: #d7ffe5; box-shadow: 0 0 9px #00e560; }
+.speed-line { position: absolute; width: 24vw; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,229,96,.45), transparent); opacity: .45; }
+.speed-line-one { top: 31%; }
+.speed-line-two { top: 66%; opacity: .2; }
+.sponsor-checker { background-image: linear-gradient(45deg, #f3f1ea 25%, transparent 25%, transparent 75%, #f3f1ea 75%), linear-gradient(45deg, #f3f1ea 25%, transparent 25%, transparent 75%, #f3f1ea 75%); background-size: 26px 26px; background-position: 0 0, 13px 13px; }

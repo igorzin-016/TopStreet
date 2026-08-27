@@ -1,4 +1,4 @@
-import LandingPage from "./pages/LandingPage";
+import TopStreetLanding from "../referencias.jsx";
 import PilotRegistration from "./pages/PilotRegistration";
 import DigitalPassport from "./pages/DigitalPassport";
 import AdminLogin from "./pages/AdminLogin";
@@ -10,7 +10,7 @@ function App() {
   if (path === "/passaporte") return <DigitalPassport />;
   if (path === "/admin") return <AdminLogin />;
   if (path === "/admin/scanner") return <AdminScanner />;
-  return <LandingPage />;
+  return <TopStreetLanding />;
 }
 
 export default App;

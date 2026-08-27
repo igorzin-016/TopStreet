@@ -1,7 +1,19 @@
 {
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/inscricao",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/passaporte",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin/scanner",
       "destination": "/index.html"
     }
   ]

@@ -123,7 +123,7 @@ begin
       payment_rejection_reason = case when p_approved then null else nullif(trim(p_reason), '') end,
       updated_at = now()
   where id = p_piloto_id
-    and status in ('comprovante_enviado', 'em_analise')
+    and status = 'comprovante_enviado'
   returning * into v_piloto;
 
   if not found then

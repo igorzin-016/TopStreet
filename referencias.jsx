@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from "react";
+﻿import React, { useEffect, useRef, useState, useCallback } from "react";
 import {
   Home,
   Info,
@@ -62,10 +62,10 @@ const FONT_MONO = "'JetBrains Mono', monospace";
 const FONT_BODY = "'Inter', sans-serif";
 
 const SECTIONS = [
-  { id: "home", label: "InÃ­cio", icon: Home },
+  { id: "home", label: "Início", icon: Home },
   { id: "sobre", label: "Sobre", icon: Info },
   { id: "patrocinadores", label: "Patrocinadores", icon: Award },
-  { id: "midia", label: "MÃ­dia", icon: ImageIcon },
+  { id: "midia", label: "Mí­dia", icon: ImageIcon },
   { id: "pilotos", label: "Pilotos", icon: UserCheck },
   { id: "contato", label: "Contato", icon: MapPin },
 ];
@@ -362,7 +362,7 @@ function Hero({ innerRef, onNavigate }) {
           className="ts-mono uppercase text-xs tracking-[0.35em] mb-6 px-3 py-1 rounded-full"
           style={{ color: C.amber, border: `1px solid ${C.amber}44` }}
         >
-          AutÃ³dromo de TarumÃ£ Â· RS
+          Autódromo de Tarumã · RS
         </div>
 
         <h1
@@ -379,7 +379,7 @@ function Hero({ innerRef, onNavigate }) {
           className="ts-mono uppercase tracking-[0.3em] mt-4"
           style={{ color: C.textMute, fontSize: 13 }}
         >
-          Etapa TarumÃ£ â€” Arrancada Oficial
+          Etapa Tarumã Arrancada Oficial
         </p>
 
         <div className="my-10">
@@ -396,7 +396,7 @@ function Hero({ innerRef, onNavigate }) {
               clipPath: "polygon(6% 0, 100% 0, 94% 100%, 0 100%)",
             }}
           >
-            Inscrever veÃ­culo â†’
+            Inscrever veículo â†’
           </button>
           <button
             onClick={() => onNavigate("sobre")}
@@ -414,7 +414,7 @@ function Hero({ innerRef, onNavigate }) {
         <div className="grid grid-cols-3 gap-8 sm:gap-16 mt-16 ts-mono">
           {[
             ["9.2s", "Recorde 1/4 milha"],
-            ["220", "km/h VmÃ¡x"],
+            ["220", "km/h Vel. Máx."],
             ["180+", "Pilotos"],
           ].map(([n, l]) => (
             <div key={l} className="flex flex-col items-center">
@@ -438,25 +438,25 @@ function Hero({ innerRef, onNavigate }) {
 /*  SOBRE O EVENTO                                                     */
 /* ------------------------------------------------------------------ */
 const SCHEDULE = [
-  { day: "Sexta", date: "12/09", items: ["14h Â· Box aberto", "17h Â· Treinos livres"] },
-  { day: "SÃ¡bado", date: "13/09", items: ["10h Â· ClassificaÃ§Ã£o", "19h Â· Arrancada noturna"] },
-  { day: "Domingo", date: "14/09", items: ["11h Â· EliminatÃ³rias", "16h Â· Grande final"] },
+  { day: "Sexta", date: "12/09", items: ["14h · Box aberto", "17h · Treinos livres"] },
+  { day: "Sábado", date: "13/09", items: ["10h · Classificação", "19h · Arrancada noturna"] },
+  { day: "Domingo", date: "14/09", items: ["11h · Eliminatórias", "16h · Grande final"] },
 ];
 
 const CATEGORIES = [
-  { name: "Turbo Radical", desc: "AtÃ© 9.5s â€” carros preparados de alta potÃªncia", icon: Zap },
+  { name: "Turbo Radical", desc: "Até 9.5s â€” carros preparados de alta potência", icon: Zap },
   { name: "Aspirados Street", desc: "Motores naturalmente aspirados de rua", icon: Wind },
   { name: "Fun Cars", desc: "Categoria livre e recreativa", icon: Flag },
   { name: "Motos 1000+", desc: "Duelo entre motocicletas de arrancada", icon: Gauge },
   { name: "Novato", desc: "Porta de entrada para pilotos estreantes", icon: Users },
-  { name: "Pro Import", desc: "Importados turbinados de competiÃ§Ã£o", icon: Fuel },
+  { name: "Pro Import", desc: "Importados turbinados de competição", icon: Fuel },
 ];
 
 function Sobre({ innerRef }) {
   return (
     <Section id="sobre" innerRef={innerRef} bg={C.surface} className="py-28 px-6">
       <div className="max-w-6xl mx-auto">
-        <SectionHeading eyebrow="Sobre o Evento" title="A pista, o traÃ§ado, o desafio" />
+        <SectionHeading eyebrow="Sobre o Evento" title="A pista, o traçado, o desafio" />
 
         <div className="grid md:grid-cols-2 gap-10 mt-16">
           <div
@@ -468,19 +468,19 @@ function Sobre({ innerRef }) {
             }}
           >
             <h3 className="ts-display uppercase text-xl mb-4" style={{ color: C.red }}>
-              AutÃ³dromo de TarumÃ£
+              Autódromo de Tarumã
             </h3>
             <p style={{ color: C.textMute, lineHeight: 1.7 }}>
-              Um dos traÃ§ados mais tradicionais do automobilismo gaÃºcho recebe a etapa Top
-              Street com reta de 1/4 de milha homologada, cronometragem eletrÃ´nica e
+              Um dos traçados mais tradicionais do automobilismo gaúcho recebe a etapa Top
+              Street com reta de 1/4 de milha homologada, cronometragem eletrônica e
               infraestrutura completa de box para equipes e pilotos.
             </p>
             <div className="grid grid-cols-2 gap-4 mt-8">
               {[
-                ["Local", "ViamÃ£o, RS"],
+                ["Local", "Viamão, RS"],
                 ["Pista", "1/4 milha oficial"],
-                ["Cronometragem", "EletrÃ´nica FIA-spec"],
-                ["Entrada", "PortÃ£o 2 â€” Box"],
+                ["Cronometragem", "Eletrônica FIA-spec"],
+                ["Entrada", "Portão 2 â€” Box"],
               ].map(([k, v]) => (
                 <div key={k}>
                   <div className="ts-mono uppercase text-[10px] tracking-widest" style={{ color: C.textFaint }}>
@@ -554,7 +554,7 @@ function Sobre({ innerRef }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  MÃDIA â€” asymmetric gallery                                         */
+/*  MÍDIA â€” asymmetric gallery                                         */
 /* ------------------------------------------------------------------ */
 const GALLERY = [
   { seed: "topstreet1", span: "sm:col-span-2 sm:row-span-2", video: true },
@@ -571,7 +571,7 @@ function Midia({ innerRef }) {
   return (
     <Section id="midia" innerRef={innerRef} bg={C.base} className="py-28 px-6">
       <div className="max-w-6xl mx-auto">
-        <SectionHeading eyebrow="MÃ­dia" title="Registros da pista" />
+        <SectionHeading eyebrow="Mídia" title="Registros da pista" />
 
         <div className="grid grid-cols-2 sm:grid-cols-4 auto-rows-[140px] sm:auto-rows-[160px] gap-3 mt-16">
           {GALLERY.map((g, i) => (
@@ -623,18 +623,18 @@ function Midia({ innerRef }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  ÃREA DOS PILOTOS                                                    */
+/*  ÁREA DOS PILOTOS                                                    */
 /* ------------------------------------------------------------------ */
 const REQUISITOS = [
   "Capacete Snell/FIA em dia",
-  "Cinto de seguranÃ§a homologado",
-  "Extintor de incÃªndio a bordo",
-  "Vistoria tÃ©cnica obrigatÃ³ria na sexta",
+  "Cinto de segurança homologado",
+  "Extintor de incêndio a bordo",
+  "Vistoria técnica obrigatória na sexta",
 ];
 
 const PASSOS = [
   ["01", "Cadastro do piloto", "Envie seus dados e categoria de disputa"],
-  ["02", "Vistoria do veÃ­culo", "InspeÃ§Ã£o tÃ©cnica presencial no autÃ³dromo"],
+  ["02", "Vistoria do veículo", "Inspeção técnica presencial no autódromo"],
   ["03", "Credenciamento", "Retirada de pulseira e adesivos oficiais"],
 ];
 
@@ -649,12 +649,12 @@ function Pilotos({ innerRef }) {
         }}
       />
       <div className="max-w-6xl mx-auto relative z-10">
-        <SectionHeading eyebrow="Ãrea dos Pilotos" title="Cadastramento e credenciamento" accent={C.green} />
+        <SectionHeading eyebrow="Área dos Pilotos" title="Cadastramento e credenciamento" accent={C.green} />
 
         <div className="grid md:grid-cols-2 gap-10 mt-16">
           <div>
             <h3 className="ts-display uppercase text-lg mb-5 flex items-center gap-2">
-              <ShieldCheck size={18} color={C.green} /> Requisitos tÃ©cnicos
+              <ShieldCheck size={18} color={C.green} /> Requisitos técnicos
             </h3>
             <ul className="space-y-3">
               {REQUISITOS.map((r) => (
@@ -667,7 +667,7 @@ function Pilotos({ innerRef }) {
 
             <div className="grid grid-cols-3 gap-4 mt-10 ts-mono">
               {[
-                ["R$ 350", "InscriÃ§Ã£o"],
+                ["R$ 350", "Inscrição"],
                 ["24/08", "Prazo final"],
                 ["6", "Categorias"],
               ].map(([n, l]) => (
@@ -712,7 +712,7 @@ function Pilotos({ innerRef }) {
                 clipPath: "polygon(4% 0, 100% 0, 96% 100%, 0 100%)",
               }}
             >
-              Inscrever VeÃ­culo / Credenciamento <ArrowRight size={16} />
+              Inscrever Veículo / Credenciamento <ArrowRight size={16} />
             </button>
           </div>
         </div>
@@ -722,12 +722,12 @@ function Pilotos({ innerRef }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  CONTATO / LOCALIZAÃ‡ÃƒO                                               */
+/*  CONTATO / LOCALIZAÇÃO                                               */
 /* ------------------------------------------------------------------ */
 function RealMap() {
   return (
     <div className="relative w-full aspect-[16/10] overflow-hidden" style={{ border: `1px solid ${C.line}`, borderRadius: 8 }}>
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3452.923485744837!2d-51.0253456!3d-30.067756!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95199bb6937e1935%3A0x6bba3bc30f9d9c22!2sAut%C3%B3dromo%20Internacional%20de%20Tarum%C3%A3!5e0!3m2!1spt-BR!2sbr!4v1715000000000!5m2!1spt-BR!2sbr" width="100%" height="100%" style={{ border: 0, minHeight: "300px", borderRadius: "8px" }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Mapa do AutÃ³dromo Internacional de TarumÃ£" />
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3452.923485744837!2d-51.0253456!3d-30.067756!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95199bb6937e1935%3A0x6bba3bc30f9d9c22!2sAut%C3%B3dromo%20Internacional%20de%20Tarum%C3%A3!5e0!3m2!1spt-BR!2sbr!4v1715000000000!5m2!1spt-BR!2sbr" width="100%" height="100%" style={{ border: 0, minHeight: "300px", borderRadius: "8px" }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Mapa do Autódromo Internacional de Tarumã" />
     </div>
   );
 }
@@ -736,7 +736,7 @@ function Contato({ innerRef }) {
   return (
     <Section id="contato" innerRef={innerRef} bg={C.base} className="pt-28 pb-10 px-6">
       <div className="max-w-6xl mx-auto">
-        <SectionHeading eyebrow="Contato" title="Como chegar atÃ© a pista" />
+        <SectionHeading eyebrow="Contato" title="Como chegar até a pista" />
 
         <div className="grid md:grid-cols-2 gap-10 mt-16 items-start">
           <RealMap />
@@ -747,16 +747,16 @@ function Contato({ innerRef }) {
                 <Calendar size={16} color={C.textFaint} /> 26 de setembro de 2026
               </div>
               <div className="flex items-center gap-3">
-                <Clock size={16} color={C.textFaint} /> Evento das 10h Ã s 18h
+                <Clock size={16} color={C.textFaint} /> Evento das 10h às 18h
               </div>
               <div className="flex items-start gap-3">
-                <MapPin size={16} color={C.textFaint} /> AutÃ³dromo Internacional de TarumÃ£ - Rod. RS-040, km 27, ViamÃ£o - RS
+                <MapPin size={16} color={C.textFaint} /> Autódromo Internacional de Tarumã - Rod. RS-040, km 27, Viamão - RS
               </div>
             </div>
-            <p className="ts-mono uppercase tracking-[0.22em] text-[10px] mt-8 mb-3" style={{ color: C.textFaint }}>InscriÃ§Ãµes e informaÃ§Ãµes no WhatsApp</p>
+            <p className="ts-mono uppercase tracking-[0.22em] text-[10px] mt-8 mb-3" style={{ color: C.textFaint }}>Inscrições e informações no WhatsApp</p>
             <div className="flex flex-col gap-2">
               <a className="inline-flex items-center gap-3 rounded-full px-4 py-3 text-sm transition-colors hover:bg-white/10" style={{ border: `1px solid ${C.line}`, color: C.text }} href="https://wa.me/5551999060748" target="_blank" rel="noreferrer"><MessageCircle size={17} color={C.green} /> WhatsApp Rodrigo</a>
-              <a className="inline-flex items-center gap-3 rounded-full px-4 py-3 text-sm transition-colors hover:bg-white/10" style={{ border: `1px solid ${C.line}`, color: C.text }} href="https://wa.me/5551992974560" target="_blank" rel="noreferrer"><MessageCircle size={17} color={C.green} /> WhatsApp VinÃ­cius</a>
+              <a className="inline-flex items-center gap-3 rounded-full px-4 py-3 text-sm transition-colors hover:bg-white/10" style={{ border: `1px solid ${C.line}`, color: C.text }} href="https://wa.me/5551992974560" target="_blank" rel="noreferrer"><MessageCircle size={17} color={C.green} /> WhatsApp Vinícius</a>
             </div>
             <div className="flex items-center gap-3 mt-8">
               {[
@@ -766,16 +766,16 @@ function Contato({ innerRef }) {
                 <a key={label} href={href} aria-label={label} target={href.startsWith("http") ? "_blank" : undefined} rel={href.startsWith("http") ? "noreferrer" : undefined} className="w-11 h-11 flex items-center justify-center rounded-full transition-colors duration-200 hover:bg-white/10" style={{ border: `1px solid ${C.line}` }}><Icon size={17} /></a>
               ))}
             </div>
-            {/* informaÃ§Ãµes oficiais do evento */}
+            {/* informações oficiais do evento */}
             <div className="hidden">
               <div className="flex items-center gap-3">
                 <Calendar size={16} color={C.textFaint} /> 12â€“14 de setembro
               </div>
               <div className="flex items-center gap-3">
-                <Clock size={16} color={C.textFaint} /> PortÃµes abrem Ã s 9h
+                <Clock size={16} color={C.textFaint} /> Portões abrem às 9h
               </div>
               <div className="flex items-center gap-3">
-                <MapPin size={16} color={C.textFaint} /> AutÃ³dromo Internacional de TarumÃ£ - Rod. RS-040, km 27, ViamÃ£o - RS
+                <MapPin size={16} color={C.textFaint} /> Autódromo Internacional de Tarumã - Rod. RS-040, km 27, Viamão - RS
               </div>
             </div>
 
@@ -804,7 +804,7 @@ function Contato({ innerRef }) {
             Top <span style={{ color: C.red }}>Street</span>
           </div>
           <div className="ts-mono text-[11px]" style={{ color: C.textFaint }}>
-            Â© 2026 Top Street Â· Etapa TarumÃ£ Â· Todos os direitos reservados
+            © 2026 Top Street · Etapa Tarumã · Todos os direitos reservados
           </div>
         </div>
       </div>
@@ -819,17 +819,17 @@ const SPONSORS = [
   { name: "Esquina Pneus", tag: "Borracharia", icon: SponsorTire },
   { name: "Rodrigo Farelo", tag: "Personal Trainer", icon: Dumbbell },
   { name: "MangSul", tag: "Materiais p/ postos", icon: Droplet },
-  { name: "Redline Performance", tag: "PreparaÃ§Ã£o", icon: Flag },
+  { name: "Redline Performance", tag: "Preparação", icon: Flag },
   { name: "Xis Boa Vista", tag: "Lanches", icon: Sandwich },
-  { name: "Meta Motors", tag: "ConcessionÃ¡ria", icon: Gauge },
-  { name: "Retificadora Master", tag: "RetÃ­fica de motores", icon: Wrench },
-  { name: "GUGU SuspensÃµes Racing", tag: "SuspensÃ£o", icon: Layers },
+  { name: "Meta Motors", tag: "Concessionária", icon: Gauge },
+  { name: "Retificadora Master", tag: "Retífica de motores", icon: Wrench },
+  { name: "GUGU Suspensões Racing", tag: "Suspensão", icon: Layers },
   { name: "Naipe Auto Center", tag: "Auto Center", icon: Spade },
-  { name: "Repasse Auto RS", tag: "VeÃ­culos", icon: Car },
+  { name: "Repasse Auto RS", tag: "Veículos", icon: Car },
   { name: "Cutelaria Encosta da Serra", tag: "Cutelaria artesanal", icon: Mountain },
-  { name: "Lave no Forte", tag: "EstÃ©tica automotiva", icon: Flame },
+  { name: "Lave no Forte", tag: "Estética automotiva", icon: Flame },
   { name: "Forged Series", tag: "Rodas forjadas", icon: Award },
-  { name: "MarcÃ£o Repasses", tag: "VeÃ­culos", icon: Truck },
+  { name: "Marcão Repasses", tag: "Veículos", icon: Truck },
 ];
 
 function Patrocinadores({ innerRef }) {
@@ -837,9 +837,9 @@ function Patrocinadores({ innerRef }) {
     <Section id="patrocinadores" innerRef={innerRef} bg={C.surface} className="py-28 px-6 relative overflow-hidden">
       <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: `linear-gradient(45deg, ${C.text} 25%, transparent 25%, transparent 75%, ${C.text} 75%), linear-gradient(45deg, ${C.text} 25%, transparent 25%, transparent 75%, ${C.text} 75%)`, backgroundSize: "26px 26px", backgroundPosition: "0 0, 13px 13px" }} />
       <div className="max-w-6xl mx-auto relative z-10">
-        <div className="flex flex-col items-center text-center"><div className="ts-display uppercase font-bold px-10 py-3 mb-4" style={{ background: C.red, color: "#fff", fontSize: "clamp(1.6rem,4.5vw,2.6rem)", letterSpacing: "0.02em", clipPath: "polygon(3% 0, 100% 0, 97% 100%, 0% 100%)", boxShadow: `0 10px 30px ${C.red}44` }}>Patrocinadores</div><p className="ts-mono uppercase tracking-[0.3em] text-xs" style={{ color: C.textMute }}>Top Street RS â€” 3Âª Etapa 2026</p></div>
+        <div className="flex flex-col items-center text-center"><div className="ts-display uppercase font-bold px-10 py-3 mb-4" style={{ background: C.red, color: "#fff", fontSize: "clamp(1.6rem,4.5vw,2.6rem)", letterSpacing: "0.02em", clipPath: "polygon(3% 0, 100% 0, 97% 100%, 0% 100%)", boxShadow: `0 10px 30px ${C.red}44` }}>Patrocinadores</div><p className="ts-mono uppercase tracking-[0.3em] text-xs" style={{ color: C.textMute }}>Top Street RS â€” 3ª Etapa 2026</p></div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-16">{SPONSORS.map((s) => { const Icon = s.icon; return <div key={s.name} className="flex flex-col items-center justify-center text-center p-5 gap-2 transition-transform duration-200 hover:scale-[1.04]" style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${C.line}`, clipPath: "polygon(0 0, 100% 0, 100% 88%, 90% 100%, 0 100%)", minHeight: 130 }}><Icon size={22} color={C.amber} /><span className="ts-display uppercase text-xs font-semibold leading-tight">{s.name}</span><span className="ts-mono text-[9px] uppercase tracking-widest" style={{ color: C.textFaint }}>{s.tag}</span></div>; })}</div>
-        <p className="text-center ts-mono text-xs mt-12" style={{ color: C.textFaint }}>Quer patrocinar a prÃ³xima etapa? Fale com a organizaÃ§Ã£o pelo WhatsApp da bio.</p>
+        <p className="text-center ts-mono text-xs mt-12" style={{ color: C.textFaint }}>Quer patrocinar a próxima etapa? Fale com a organização pelo WhatsApp da bio.</p>
       </div>
     </Section>
   );
@@ -917,4 +917,3 @@ export default function TopStreetLanding() {
     </div>
   );
 }
-

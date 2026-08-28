@@ -1,4 +1,4 @@
-export type PilotCategory =
+﻿export type PilotCategory =
   | "no-prep-201"
   | "arrancada"
   | "track-day"
@@ -40,8 +40,8 @@ export type RegistrationFieldErrors = Partial<
 >;
 
 /**
- * Retorno esperado do backend apÃ³s a inscriÃ§Ã£o.
- * `protocol` hoje Ã© gerado no cliente (stub) â€” quando o Supabase estiver
+ * Retorno esperado do backend após a inscrição.
+ * `protocol` hoje é gerado no cliente (stub) ââ‚¬â€ quando o Supabase estiver
  * integrado, deve vir do registro criado na tabela `pilotos`.
  */
 export interface RegistrationResult {

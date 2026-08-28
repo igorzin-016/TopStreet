@@ -1,10 +1,10 @@
-import {
+﻿import {
   PilotRegistrationForm,
   RegistrationFieldErrors,
 } from "../types/registration";
 
 /* -------------------------------------------------------------------- */
-/*  MÃSCARAS â€” aplicadas no onChange, sempre a partir do valor "cru"     */
+/*  MÃƒÂSCARAS ââ‚¬â€ aplicadas no onChange, sempre a partir do valor "cru"     */
 /* -------------------------------------------------------------------- */
 
 export function maskCPF(value: string): string {
@@ -32,7 +32,7 @@ export function maskCarNumber(value: string): string {
 }
 
 /* -------------------------------------------------------------------- */
-/*  VALIDAÃ‡ÃƒO                                                            */
+/*  VALIDAÃƒâ€¡ÃƒÆ’O                                                            */
 /* -------------------------------------------------------------------- */
 
 export function isValidCPF(rawValue: string): boolean {
@@ -72,21 +72,21 @@ export function validateRegistrationForm(
   if (!form.cpf.trim()) {
     errors.cpf = "Informe o CPF.";
   } else if (!isValidCPF(form.cpf)) {
-    errors.cpf = "CPF invÃ¡lido.";
+    errors.cpf = "CPF inválido.";
   }
 
   if (!form.whatsapp.trim()) {
     errors.whatsapp = "Informe o WhatsApp.";
   } else if (!isValidWhatsApp(form.whatsapp)) {
-    errors.whatsapp = "NÃºmero de WhatsApp invÃ¡lido.";
+    errors.whatsapp = "Número de WhatsApp inválido.";
   }
 
   if (!form.vehicle.trim()) {
-    errors.vehicle = "Informe o veÃ­culo e modelo.";
+    errors.vehicle = "Informe o veículo e modelo.";
   }
 
   if (!form.carNumber.trim()) {
-    errors.carNumber = "Informe o nÃºmero do carro.";
+    errors.carNumber = "Informe o número do carro.";
   }
 
   if (!form.category) {
@@ -95,7 +95,7 @@ export function validateRegistrationForm(
 
   if (!form.acceptedTerms) {
     errors.acceptedTerms =
-      "Ã‰ necessÃ¡rio aceitar o regulamento para continuar.";
+      "É necessário aceitar o regulamento para continuar.";
   }
 
   return errors;
@@ -104,5 +104,4 @@ export function validateRegistrationForm(
 export function hasErrors(errors: RegistrationFieldErrors): boolean {
   return Object.keys(errors).length > 0;
 }
-
 

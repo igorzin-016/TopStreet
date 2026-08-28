@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+﻿import { useCallback, useState } from "react";
 import { AlertTriangle, CheckCircle2, RotateCcw, ScanLine } from "lucide-react";
 import QRScanner from "../components/QRScanner";
 import { processarCheckin, type CheckinResult } from "../lib/checkin";

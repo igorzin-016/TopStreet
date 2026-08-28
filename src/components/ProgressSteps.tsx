@@ -1,9 +1,9 @@
-import React from "react";
+﻿import React from "react";
 
-const STEPS = ["Dados do piloto", "VeÃ­culo e categoria", "ConfirmaÃ§Ã£o"];
+const STEPS = ["Dados do piloto", "Veículo e categoria", "Confirmação"];
 
 interface ProgressStepsProps {
-  /** Ã­ndice (0-based) da etapa ativa */
+  /** índice (0-based) da etapa ativa */
   current: number;
 }
 

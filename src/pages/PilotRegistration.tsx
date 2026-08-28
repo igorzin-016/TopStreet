@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   User,
@@ -123,7 +123,7 @@ export default function PilotRegistration() {
       setSubmitError(
         err instanceof RegistrationError
           ? err.message
-          : "NÃ£o foi possÃ­vel enviar sua inscriÃ§Ã£o agora. Tente novamente."
+          : "Não foi possível enviar sua inscrição agora. Tente novamente."
       );
     } finally {
       setSubmitting(false);
@@ -151,7 +151,7 @@ export default function PilotRegistration() {
                 className="inline-block text-[10px] uppercase tracking-widest font-mono px-2.5 py-1 rounded-full border mb-4"
                 style={{ color: "#FFB627", borderColor: "rgba(255,182,39,0.3)" }}
               >
-                Top Street Â· TarumÃ£ Â· 26/09/2026
+                Top Street · Tarumã · 26/09/2026
               </span>
               <h1
                 className="text-2xl sm:text-3xl font-bold uppercase text-[#F3F1EA]"
@@ -177,7 +177,7 @@ export default function PilotRegistration() {
                   label="Nome completo"
                   icon={User}
                   required
-                  placeholder="Ex: JoÃ£o da Silva"
+                  placeholder="Ex: João da Silva"
                   autoComplete="name"
                   value={form.fullName}
                   error={errors.fullName}
@@ -215,7 +215,7 @@ export default function PilotRegistration() {
 
                 <FormField
                   id="vehicle"
-                  label="VeÃ­culo / modelo"
+                  label="Veículo / modelo"
                   icon={Car}
                   required
                   placeholder="Ex: Chevrolet Opala 6cc"
@@ -228,7 +228,7 @@ export default function PilotRegistration() {
                 <div className="grid sm:grid-cols-2 gap-5">
                   <FormField
                     id="carNumber"
-                    label="NÃºmero do carro"
+                    label="Número do carro"
                     icon={Hash}
                     required
                     placeholder="Ex: 07"
@@ -305,14 +305,14 @@ export default function PilotRegistration() {
                   </span>
                 )}
 
-                {/* Card de seguranÃ§a */}
+                {/* Card de segurança */}
                 <div
                   className="flex items-start gap-3 rounded-lg border p-4"
                   style={{ borderColor: "#3A3836", background: "#171615" }}
                 >
                   <ShieldCheck size={18} color="#6E6A60" className="mt-0.5 shrink-0" />
                   <p className="text-xs text-[#6E6A60] leading-relaxed">
-                    Seus dados serÃ£o utilizados exclusivamente para inscriÃ§Ã£o,
+                    Seus dados serão utilizados exclusivamente para inscrição,
                     credenciamento e controle de acesso ao evento.
                   </p>
                 </div>

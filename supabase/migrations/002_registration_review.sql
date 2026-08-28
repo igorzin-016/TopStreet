@@ -117,7 +117,7 @@ begin
   end if;
 
   update public.pilotos
-  set status = case when p_approved then 'aprovado' else 'rejeitado' end,
+  set status = case when p_approved then 'credenciamento_liberado' else 'rejeitado' end,
       payment_reviewed_at = now(),
       payment_reviewed_by = auth.uid(),
       payment_rejection_reason = case when p_approved then null else nullif(trim(p_reason), '') end,

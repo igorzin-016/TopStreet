@@ -18,7 +18,7 @@ Deno.serve(async (request) => {
     const { data: pilot, error } = await admin.from("pilotos").select("id, protocolo, nome_completo, veiculo, categoria, status, status_checkin, qr_token_hash, payment_rejection_reason").eq("resume_token_hash", await sha256(resumeToken)).maybeSingle();
     if (error || !pilot) return json({ message: "Inscrição não encontrada." }, 404);
     let qrToken: string | null = null;
-    if (pilot.status === "aprovado") {
+    if (pilot.status === "credenciamento_liberado") {
       const secret = Deno.env.get("QR_SECRET") ?? Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
       qrToken = await sha256(`${resumeToken}:${pilot.id}:${secret}`);
       if (pilot.qr_token_hash !== await sha256(qrToken)) await admin.from("pilotos").update({ qr_token_hash: await sha256(qrToken), qr_gerado_em: new Date().toISOString(), updated_at: new Date().toISOString() }).eq("id", pilot.id);

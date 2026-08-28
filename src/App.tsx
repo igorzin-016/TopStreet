@@ -6,6 +6,7 @@ import AdminScanner from "./pages/AdminScanner";
 import PaymentUpload from "./pages/PaymentUpload";
 import AdminRegistrations from "./pages/AdminRegistrations";
 import PilotLogin from "./pages/PilotLogin";
+import AdminRegistrationDetail from "./pages/AdminRegistrationDetail";
 import { useLocation } from "react-router-dom";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
   if (path === "/pagamento") return <PaymentUpload />;
   if (path === "/admin") return <AdminLogin />;
   if (path === "/admin/inscricoes") return <AdminRegistrations />;
+  if (path.startsWith("/admin/inscricoes/")) return <AdminRegistrationDetail id={path.split("/").pop() ?? ""} />;
   if (path === "/admin/scanner") return <AdminScanner />;
   return <TopStreetLanding />;
 }

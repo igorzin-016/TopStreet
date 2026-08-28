@@ -108,7 +108,7 @@ begin
   from public.eventos e
   where p.evento_id = e.id
     and p.qr_token_hash = p_token_hash
-    and p.status = 'aprovado'
+    and p.status = 'credenciamento_liberado'
     and p.status_checkin = false
     and e.ativo = true
   returning p.* into v_piloto;

@@ -37,6 +37,7 @@ import {
 
 const FONT_DISPLAY = "'Space Grotesk', sans-serif";
 const FONT_MONO = "'JetBrains Mono', monospace";
+const APP_VERSION = "v0.1.0 · e71dffa";
 
 /* ------------------------------------------------------------------ */
 /*  HEADER                                                             */
@@ -345,7 +346,9 @@ export default function PilotRegistration() {
           </>
         )}
       </main>
+      <span className="fixed bottom-2 right-3 z-20 font-mono text-[9px] tracking-wider text-[#6e6a60]" title="Versão publicada do front-end">
+        {APP_VERSION}
+      </span>
     </div>
   );
 }
-

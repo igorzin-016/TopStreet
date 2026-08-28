@@ -16,12 +16,16 @@ Deno.serve(async (request) => {
     const required = ["fullName", "cpf", "whatsapp", "vehicle", "category"];
     if (required.some((field) => typeof body[field] !== "string" || !body[field].trim()) || body.acceptedTerms !== true) return json({ message: "Dados obrigatórios inválidos." }, 400);
     const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
-    const { data: event } = await admin.from("eventos").select("id").eq("ativo", true).order("data_evento", { ascending: true }).limit(1).maybeSingle();
+    const { data: event, error: eventError } = await admin.from("eventos").select("id").eq("ativo", true).order("data_evento", { ascending: true }).limit(1).maybeSingle();
+    if (eventError) return json({ message: "Erro ao consultar evento.", details: eventError.message }, 500);
     if (!event) return json({ message: "Não há evento ativo." }, 409);
     const resumeToken = crypto.randomUUID() + crypto.randomUUID();
     const protocol = `TS26-${crypto.randomUUID().replaceAll("-", "").slice(0, 6).toUpperCase()}`;
     const { data, error } = await admin.from("pilotos").insert({ evento_id: event.id, protocolo: protocol, nome_completo: body.fullName.trim(), cpf: body.cpf.replace(/\D/g, ""), whatsapp: body.whatsapp.replace(/\D/g, ""), veiculo: body.vehicle.trim(), numero_carro: body.carNumber?.trim() || null, categoria: body.category, termos_aceitos: true, status: "aguardando_pagamento", resume_token_hash: await hash(resumeToken), pix_key_used: Deno.env.get("PIX_KEY") ?? "0001" }).select("id, protocolo, nome_completo, veiculo, categoria").single();
-    if (error) return json({ message: "Não foi possível criar a inscrição." }, 400);
+    if (error) {
+      console.error("register-pilot insert error", error);
+      return json({ message: "Não foi possível criar a inscrição.", details: error.message, code: error.code }, 400);
+    }
     return json({ ...data, resumeToken });
   } catch { return json({ message: "Requisição inválida." }, 400); }
 });

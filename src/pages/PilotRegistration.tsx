@@ -62,6 +62,9 @@ function Header({ onBack }: { onBack: () => void }) {
             Top <span style={{ color: "#E42313" }}>Street</span>
           </span>
         </button>
+        <a href="/acesso" className="mr-auto ml-4 text-[10px] uppercase tracking-widest text-[#c6ff4d] hover:underline">
+          Já tenho inscrição
+        </a>
         <span
           className="text-[10px] sm:text-xs uppercase tracking-widest font-mono px-2.5 py-1 rounded-full border"
           style={{ color: "#A6A196", borderColor: "#3A3836" }}

@@ -5,6 +5,10 @@
       "destination": "/index.html"
     },
     {
+      "source": "/acesso",
+      "destination": "/index.html"
+    },
+    {
       "source": "/passaporte",
       "destination": "/index.html"
     },

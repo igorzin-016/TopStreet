@@ -16,9 +16,15 @@ Deno.serve(async (request) => {
     if (!pilot || !["aguardando_pagamento", "rejeitado", "pagamento_rejeitado"].includes(pilot.status)) return json({ message: "Inscrição não encontrada ou não permite novo comprovante." }, 403);
     const path = `${pilot.id}/${crypto.randomUUID()}.${file.name.split(".").pop()?.toLowerCase() ?? "bin"}`;
     const upload = await admin.storage.from("comprovantes").upload(path, file, { contentType: file.type, upsert: false });
-    if (upload.error) return json({ message: "Falha ao salvar o comprovante." }, 500);
+    if (upload.error) {
+      console.error("upload-proof storage error", upload.error);
+      return json({ message: "Falha ao salvar o comprovante.", details: upload.error.message }, 500);
+    }
     const { error } = await admin.from("pilotos").update({ proof_path: path, proof_filename: file.name, proof_mime_type: file.type, proof_size: file.size, proof_uploaded_at: new Date().toISOString(), status: "comprovante_enviado", payment_rejection_reason: null, updated_at: new Date().toISOString() }).eq("id", pilot.id);
-    if (error) return json({ message: "Comprovante salvo, mas não foi possível atualizar o status." }, 500);
+    if (error) {
+      console.error("upload-proof update error", error);
+      return json({ message: "Comprovante salvo, mas não foi possível atualizar o status.", details: error.message, code: error.code }, 500);
+    }
     return json({ ok: true, status: "comprovante_enviado" });
-  } catch { return json({ message: "Não foi possível processar o upload." }, 400); }
+  } catch (error) { return json({ message: "Não foi possível processar o upload.", details: error instanceof Error ? error.message : undefined }, 400); }
 });

@@ -4,6 +4,17 @@ import { supabase } from "../lib/supabase";
 
 const PIX_KEY = "0001";
 
+async function getFunctionErrorMessage(error: unknown) {
+  const context = (error as { context?: unknown } | null)?.context;
+  if (context instanceof Response) {
+    try {
+      const body = await context.clone().json() as { message?: string; details?: string };
+      return body.details ? `${body.message ?? "Erro no envio."} (${body.details})` : body.message;
+    } catch { /* usa a mensagem padrão abaixo */ }
+  }
+  return undefined;
+}
+
 export default function PaymentUpload() {
   const fileRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
@@ -26,7 +37,7 @@ export default function PaymentUpload() {
     form.append("token", token); form.append("file", file);
     const { data, error } = await supabase.functions.invoke("upload-proof", { body: form });
     setBusy(false);
-    if (error || !data?.ok) return setMessage(data?.message ?? "Não foi possível enviar o comprovante.");
+    if (error || !data?.ok) return setMessage(data?.message ?? await getFunctionErrorMessage(error) ?? "Não foi possível enviar o comprovante.");
     setMessage("Comprovante enviado. A organização fará a conferência do pagamento.");
   }
 

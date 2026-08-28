@@ -11,6 +11,8 @@ import {
   ArrowRight,
   ArrowLeft,
   Loader2,
+  Tag,
+  FileCheck2,
 } from "lucide-react";
 
 import { FormField, SelectField } from "../components/FormField";
@@ -34,6 +36,7 @@ import {
   RegistrationFieldErrors,
   RegistrationResult,
 } from "../types/registration";
+import { supabase } from "../lib/supabase";
 
 const FONT_DISPLAY = "'Space Grotesk', sans-serif";
 const FONT_MONO = "'JetBrains Mono', monospace";
@@ -89,6 +92,8 @@ export default function PilotRegistration() {
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [result, setResult] = useState<RegistrationResult | null>(null);
+  const [cnhFile, setCnhFile] = useState<File | null>(null);
+  const [cnhError, setCnhError] = useState("");
 
   function updateField<K extends keyof PilotRegistrationForm>(
     key: K,
@@ -109,6 +114,9 @@ export default function PilotRegistration() {
     const validation = validateRegistrationForm(form);
     setErrors(validation);
     if (hasErrors(validation)) return;
+    if (!cnhFile) { setCnhError("Anexe uma foto ou PDF da CNH."); return; }
+    if (cnhFile.size > 5 * 1024 * 1024 || !["image/jpeg", "image/png", "image/webp", "application/pdf"].includes(cnhFile.type)) { setCnhError("A CNH deve ser JPG, PNG, WEBP ou PDF de até 5 MB."); return; }
+    setCnhError("");
 
     setSubmitting(true);
     setSubmitError(null);
@@ -118,6 +126,11 @@ export default function PilotRegistration() {
         localStorage.setItem("topstreet_resume_token", response.resumeToken);
         localStorage.setItem("topstreet_protocol", response.protocol);
       }
+      const cnhForm = new FormData();
+      cnhForm.append("token", response.resumeToken);
+      cnhForm.append("file", cnhFile);
+      const { data: cnhResponse, error: cnhUploadError } = await supabase.functions.invoke("upload-cnh", { body: cnhForm });
+      if (cnhUploadError || !cnhResponse?.ok) throw new RegistrationError(cnhResponse?.message ?? "Cadastro criado, mas não foi possível enviar a CNH.");
       setResult(response);
     } catch (err) {
       setSubmitError(
@@ -213,17 +226,14 @@ export default function PilotRegistration() {
                   />
                 </div>
 
-                <FormField
-                  id="vehicle"
-                  label="Veículo / modelo"
-                  icon={Car}
-                  required
-                  placeholder="Ex: Chevrolet Opala 6cc"
-                  autoComplete="off"
-                  value={form.vehicle}
-                  error={errors.vehicle}
-                  onChange={(e) => updateField("vehicle", e.target.value)}
-                />
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <FormField id="brand" label="Marca" icon={Tag} required placeholder="Ex: Chevrolet" value={form.brand} error={errors.brand} onChange={(e) => { updateField("brand", e.target.value); updateField("vehicle", `${e.target.value} ${form.model}`.trim()); }} />
+                  <FormField id="model" label="Modelo" icon={Car} required placeholder="Ex: Opala 1970" value={form.model} error={errors.model} onChange={(e) => { updateField("model", e.target.value); updateField("vehicle", `${form.brand} ${e.target.value}`.trim()); }} />
+                </div>
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <FormField id="plate" label="Placa" icon={Hash} required={!form.noPlate} placeholder="Ex: ABC1D23" value={form.plate} error={errors.plate} disabled={form.noPlate} onChange={(e) => updateField("plate", e.target.value.toUpperCase().replace(/[^A-Z0-9-]/g, "").slice(0, 7))} />
+                  <label htmlFor="noPlate" className="flex cursor-pointer items-center gap-3 rounded-lg border border-white/10 p-3 text-sm text-[#a6a196]"><input id="noPlate" type="checkbox" checked={form.noPlate} onChange={(e) => updateField("noPlate", e.target.checked)} className="h-4 w-4 accent-[#e42313]" />Não se aplica / veículo sem placa</label>
+                </div>
 
                 <div className="grid sm:grid-cols-2 gap-5">
                   <FormField
@@ -256,6 +266,13 @@ export default function PilotRegistration() {
                       )
                     }
                   />
+                </div>
+
+                <div className="rounded-lg border border-white/10 p-4">
+                  <label htmlFor="cnh" className="flex cursor-pointer items-center gap-3 text-sm text-[#a6a196]"><FileCheck2 size={18} className="text-[#c6ff4d]" /><span><strong className="text-[#f3f1ea]">CNH do piloto</strong><span className="block text-xs">Foto ou PDF · máximo de 5 MB</span></span></label>
+                  <input id="cnh" type="file" accept="image/jpeg,image/png,image/webp,application/pdf" onChange={(e) => { setCnhFile(e.target.files?.[0] ?? null); setCnhError(""); }} className="mt-3 block w-full text-xs text-[#a6a196] file:mr-3 file:rounded-full file:border-0 file:bg-[#c6ff4d] file:px-3 file:py-2 file:text-xs file:font-bold file:text-[#171615]" />
+                  {cnhFile && <p className="mt-2 text-xs text-[#c6ff4d]">Arquivo selecionado: {cnhFile.name}</p>}
+                  {cnhError && <p className="mt-2 text-xs text-[#e42313]">{cnhError}</p>}
                 </div>
 
                 {/* Aceite dos termos */}

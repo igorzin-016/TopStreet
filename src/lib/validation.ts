@@ -82,8 +82,12 @@ export function validateRegistrationForm(
   }
 
   if (!form.vehicle.trim()) {
-    errors.vehicle = "Informe o veículo e modelo.";
+    errors.vehicle = "Informe marca e modelo do veículo.";
   }
+
+  if (!form.brand.trim()) errors.brand = "Informe a marca do veículo.";
+  if (!form.model.trim()) errors.model = "Informe o modelo do veículo.";
+  if (!form.noPlate && !form.plate.trim()) errors.plate = "Informe a placa ou marque que não se aplica.";
 
   if (!form.carNumber.trim()) {
     errors.carNumber = "Informe o número do carro.";
@@ -104,4 +108,3 @@ export function validateRegistrationForm(
 export function hasErrors(errors: RegistrationFieldErrors): boolean {
   return Object.keys(errors).length > 0;
 }
-

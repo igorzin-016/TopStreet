@@ -13,7 +13,7 @@ Deno.serve(async (request) => {
   if (request.method === "OPTIONS") return new Response("ok", { headers });
   try {
     const body = await request.json();
-    const required = ["fullName", "cpf", "whatsapp", "vehicle", "category"];
+    const required = ["fullName", "cpf", "whatsapp", "brand", "model", "category"];
     if (required.some((field) => typeof body[field] !== "string" || !body[field].trim()) || body.acceptedTerms !== true) return json({ message: "Dados obrigatórios inválidos." }, 400);
     if (body.category !== "no-prep-201") return json({ message: "A categoria deste evento é Arrancada 201 metros · No Prep." }, 400);
     const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
@@ -22,7 +22,7 @@ Deno.serve(async (request) => {
     if (!event) return json({ message: "Não há evento ativo." }, 409);
     const resumeToken = crypto.randomUUID() + crypto.randomUUID();
     const protocol = `TS26-${crypto.randomUUID().replaceAll("-", "").slice(0, 6).toUpperCase()}`;
-    const { data, error } = await admin.from("pilotos").insert({ evento_id: event.id, protocolo: protocol, nome_completo: body.fullName.trim(), cpf: body.cpf.replace(/\D/g, ""), telefone: body.whatsapp.replace(/\D/g, ""), veiculo: body.vehicle.trim(), numero_carro: body.carNumber?.trim() || null, categoria: body.category, status: "aguardando_pagamento", resume_token_hash: await hash(resumeToken), pix_key_used: Deno.env.get("PIX_KEY") ?? "0001" }).select("id, protocolo, nome_completo, veiculo, categoria").single();
+    const { data, error } = await admin.from("pilotos").insert({ evento_id: event.id, protocolo: protocol, nome_completo: body.fullName.trim(), cpf: body.cpf.replace(/\D/g, ""), telefone: body.whatsapp.replace(/\D/g, ""), marca: body.brand.trim(), modelo: body.model.trim(), placa: body.noPlate ? null : body.plate.replace(/[^A-Za-z0-9]/g, "").toUpperCase(), sem_placa: body.noPlate === true, veiculo: `${body.brand.trim()} ${body.model.trim()}`, numero_carro: body.carNumber?.trim() || null, categoria: body.category, status: "aguardando_pagamento", resume_token_hash: await hash(resumeToken), pix_key_used: Deno.env.get("PIX_KEY") ?? "0001" }).select("id, protocolo, nome_completo, veiculo, categoria").single();
     if (error) {
       console.error("register-pilot insert error", error);
       return json({ message: "Não foi possível criar a inscrição.", details: error.message, code: error.code }, 400);

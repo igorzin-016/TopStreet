@@ -49,6 +49,5 @@ export interface RegistrationResult {
   fullName: string;
   vehicle: string;
   category: PilotCategory;
-  resumeToken?: string;
+  resumeToken: string;
 }
-

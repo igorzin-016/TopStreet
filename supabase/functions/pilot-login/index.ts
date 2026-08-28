@@ -13,11 +13,11 @@ Deno.serve(async (request) => {
   try {
     const body = await request.json();
     const cpf = typeof body.cpf === "string" ? body.cpf.replace(/\D/g, "") : "";
-    const protocolo = typeof body.protocolo === "string" ? body.protocolo.trim().toUpperCase() : "";
-    if (cpf.length !== 11 || !protocolo) return json({ message: "Informe CPF e protocolo." }, 400);
+    const telefone = typeof body.telefone === "string" ? body.telefone.replace(/\D/g, "") : "";
+    if (cpf.length !== 11 || telefone.length < 10) return json({ message: "Informe CPF e WhatsApp." }, 400);
     const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
-    const { data: pilot } = await admin.from("pilotos").select("id, protocolo, nome_completo, cpf, status").eq("cpf", cpf).eq("protocolo", protocolo).maybeSingle();
-    if (!pilot) return json({ message: "CPF ou protocolo não conferem." }, 401);
+    const { data: pilot } = await admin.from("pilotos").select("id, protocolo, nome_completo, cpf, status").eq("cpf", cpf).eq("telefone", telefone).maybeSingle();
+    if (!pilot) return json({ message: "CPF ou WhatsApp não conferem." }, 401);
     const token = crypto.randomUUID() + crypto.randomUUID();
     const { error } = await admin.from("pilotos").update({ resume_token_hash: await sha256(token), updated_at: new Date().toISOString() }).eq("id", pilot.id);
     if (error) return json({ message: "Não foi possível liberar o acesso." }, 500);

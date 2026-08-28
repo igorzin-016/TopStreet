@@ -37,7 +37,7 @@ import {
 
 const FONT_DISPLAY = "'Space Grotesk', sans-serif";
 const FONT_MONO = "'JetBrains Mono', monospace";
-const APP_VERSION = "v0.1.0 · 806e045";
+const APP_VERSION = "v0.1.1";
 
 /* ------------------------------------------------------------------ */
 /*  HEADER                                                             */

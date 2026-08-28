@@ -5,9 +5,10 @@ import AdminLogin from "./pages/AdminLogin";
 import AdminScanner from "./pages/AdminScanner";
 import PaymentUpload from "./pages/PaymentUpload";
 import AdminRegistrations from "./pages/AdminRegistrations";
+import { useLocation } from "react-router-dom";
 
 function App() {
-  const path = window.location.pathname;
+  const { pathname: path } = useLocation();
   if (path === "/inscricao") return <PilotRegistration />;
   if (path === "/passaporte") return <DigitalPassport />;
   if (path === "/pagamento") return <PaymentUpload />;

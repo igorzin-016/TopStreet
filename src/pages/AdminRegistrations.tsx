@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { Check, ExternalLink, Loader2, LogOut, X } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
-type Pilot = { id: string; protocolo: string; nome_completo: string; cpf: string; whatsapp: string; veiculo: string; numero_carro: string | null; categoria: string; status: string; proof_path: string | null; proof_filename: string | null; created_at: string };
+type Pilot = { id: string; protocolo: string; nome_completo: string; cpf: string; telefone: string | null; veiculo: string; numero_carro: string | null; categoria: string; status: string; proof_path: string | null; proof_filename: string | null; created_at: string };
 
 const labels: Record<string, string> = { aguardando_pagamento: "Aguardando pagamento", comprovante_enviado: "Comprovante enviado", em_analise: "Em análise", aprovado: "Aprovado", rejeitado: "Rejeitado" };
 
 export default function AdminRegistrations() {
   const [rows, setRows] = useState<Pilot[]>([]); const [loading, setLoading] = useState(true); const [error, setError] = useState(""); const [busy, setBusy] = useState(""); const [filter, setFilter] = useState("todos");
-  async function load() { setLoading(true); const { data, error } = await supabase.from("pilotos").select("id,protocolo,nome_completo,cpf,whatsapp,veiculo,numero_carro,categoria,status,proof_path,proof_filename,created_at").order("created_at", { ascending: false }); if (error) setError(error.message); else setRows((data ?? []) as Pilot[]); setLoading(false); }
+  async function load() { setLoading(true); const { data, error } = await supabase.from("pilotos").select("id,protocolo,nome_completo,cpf,telefone,veiculo,numero_carro,categoria,status,proof_path,proof_filename,created_at").order("created_at", { ascending: false }); if (error) setError(error.message); else setRows((data ?? []) as Pilot[]); setLoading(false); }
   useEffect(() => { supabase.auth.getUser().then(({ data }) => { if (!data.user) window.location.href = "/admin"; else load(); }); }, []);
   async function review(id: string, approved: boolean) { const reason = approved ? null : window.prompt("Motivo da rejeição (opcional):"); setBusy(id); const { error } = await supabase.rpc("review_payment", { p_piloto_id: id, p_approved: approved, p_reason: reason }); if (error) setError(error.message); else await load(); setBusy(""); }
   async function proof(path: string | null) { if (!path) return; const { data, error } = await supabase.storage.from("comprovantes").createSignedUrl(path, 600); if (error) setError(error.message); else window.open(data.signedUrl, "_blank", "noopener,noreferrer"); }

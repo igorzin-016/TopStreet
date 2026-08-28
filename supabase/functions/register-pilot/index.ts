@@ -21,7 +21,7 @@ Deno.serve(async (request) => {
     if (!event) return json({ message: "Não há evento ativo." }, 409);
     const resumeToken = crypto.randomUUID() + crypto.randomUUID();
     const protocol = `TS26-${crypto.randomUUID().replaceAll("-", "").slice(0, 6).toUpperCase()}`;
-    const { data, error } = await admin.from("pilotos").insert({ evento_id: event.id, protocolo: protocol, nome_completo: body.fullName.trim(), cpf: body.cpf.replace(/\D/g, ""), whatsapp: body.whatsapp.replace(/\D/g, ""), veiculo: body.vehicle.trim(), numero_carro: body.carNumber?.trim() || null, categoria: body.category, termos_aceitos: true, status: "aguardando_pagamento", resume_token_hash: await hash(resumeToken), pix_key_used: Deno.env.get("PIX_KEY") ?? "0001" }).select("id, protocolo, nome_completo, veiculo, categoria").single();
+    const { data, error } = await admin.from("pilotos").insert({ evento_id: event.id, protocolo: protocol, nome_completo: body.fullName.trim(), cpf: body.cpf.replace(/\D/g, ""), telefone: body.whatsapp.replace(/\D/g, ""), veiculo: body.vehicle.trim(), numero_carro: body.carNumber?.trim() || null, categoria: body.category, status: "aguardando_pagamento", resume_token_hash: await hash(resumeToken), pix_key_used: Deno.env.get("PIX_KEY") ?? "0001" }).select("id, protocolo, nome_completo, veiculo, categoria").single();
     if (error) {
       console.error("register-pilot insert error", error);
       return json({ message: "Não foi possível criar a inscrição.", details: error.message, code: error.code }, 400);

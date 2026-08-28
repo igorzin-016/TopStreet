@@ -396,7 +396,7 @@ function Hero({ innerRef, onNavigate }) {
               clipPath: "polygon(6% 0, 100% 0, 94% 100%, 0 100%)",
             }}
           >
-            Inscrever veículo â†’
+            Inscrever veículo
           </button>
           <button
             onClick={() => onNavigate("sobre")}
@@ -444,7 +444,7 @@ const SCHEDULE = [
 ];
 
 const CATEGORIES = [
-  { name: "Turbo Radical", desc: "Até 9.5s â€” carros preparados de alta potência", icon: Zap },
+  { name: "Turbo Radical", desc: "Até 9.5s carros preparados de alta potência", icon: Zap },
   { name: "Aspirados Street", desc: "Motores naturalmente aspirados de rua", icon: Wind },
   { name: "Fun Cars", desc: "Categoria livre e recreativa", icon: Flag },
   { name: "Motos 1000+", desc: "Duelo entre motocicletas de arrancada", icon: Gauge },
@@ -480,7 +480,7 @@ function Sobre({ innerRef }) {
                 ["Local", "Viamão, RS"],
                 ["Pista", "1/4 milha oficial"],
                 ["Cronometragem", "Eletrônica FIA-spec"],
-                ["Entrada", "Portão 2 â€” Box"],
+                ["Entrada", "Portão 2 - Box"],
               ].map(([k, v]) => (
                 <div key={k}>
                   <div className="ts-mono uppercase text-[10px] tracking-widest" style={{ color: C.textFaint }}>
@@ -837,7 +837,7 @@ function Patrocinadores({ innerRef }) {
     <Section id="patrocinadores" innerRef={innerRef} bg={C.surface} className="py-28 px-6 relative overflow-hidden">
       <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: `linear-gradient(45deg, ${C.text} 25%, transparent 25%, transparent 75%, ${C.text} 75%), linear-gradient(45deg, ${C.text} 25%, transparent 25%, transparent 75%, ${C.text} 75%)`, backgroundSize: "26px 26px", backgroundPosition: "0 0, 13px 13px" }} />
       <div className="max-w-6xl mx-auto relative z-10">
-        <div className="flex flex-col items-center text-center"><div className="ts-display uppercase font-bold px-10 py-3 mb-4" style={{ background: C.red, color: "#fff", fontSize: "clamp(1.6rem,4.5vw,2.6rem)", letterSpacing: "0.02em", clipPath: "polygon(3% 0, 100% 0, 97% 100%, 0% 100%)", boxShadow: `0 10px 30px ${C.red}44` }}>Patrocinadores</div><p className="ts-mono uppercase tracking-[0.3em] text-xs" style={{ color: C.textMute }}>Top Street RS â€” 3ª Etapa 2026</p></div>
+        <div className="flex flex-col items-center text-center"><div className="ts-display uppercase font-bold px-10 py-3 mb-4" style={{ background: C.red, color: "#fff", fontSize: "clamp(1.6rem,4.5vw,2.6rem)", letterSpacing: "0.02em", clipPath: "polygon(3% 0, 100% 0, 97% 100%, 0% 100%)", boxShadow: `0 10px 30px ${C.red}44` }}>Patrocinadores</div><p className="ts-mono uppercase tracking-[0.3em] text-xs" style={{ color: C.textMute }}>Top Street RS 3ª Etapa 2026</p></div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-16">{SPONSORS.map((s) => { const Icon = s.icon; return <div key={s.name} className="flex flex-col items-center justify-center text-center p-5 gap-2 transition-transform duration-200 hover:scale-[1.04]" style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${C.line}`, clipPath: "polygon(0 0, 100% 0, 100% 88%, 90% 100%, 0 100%)", minHeight: 130 }}><Icon size={22} color={C.amber} /><span className="ts-display uppercase text-xs font-semibold leading-tight">{s.name}</span><span className="ts-mono text-[9px] uppercase tracking-widest" style={{ color: C.textFaint }}>{s.tag}</span></div>; })}</div>
         <p className="text-center ts-mono text-xs mt-12" style={{ color: C.textFaint }}>Quer patrocinar a próxima etapa? Fale com a organização pelo WhatsApp da bio.</p>
       </div>

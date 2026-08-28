@@ -438,18 +438,11 @@ function Hero({ innerRef, onNavigate }) {
 /*  SOBRE O EVENTO                                                     */
 /* ------------------------------------------------------------------ */
 const SCHEDULE = [
-  { day: "Sexta", date: "12/09", items: ["14h · Box aberto", "17h · Treinos livres"] },
-  { day: "Sábado", date: "13/09", items: ["10h · Classificação", "19h · Arrancada noturna"] },
-  { day: "Domingo", date: "14/09", items: ["11h · Eliminatórias", "16h · Grande final"] },
+  { day: "Sábado", date: "26/09", items: ["10h · Abertura dos portões", "18h · Encerramento"] },
 ];
 
 const CATEGORIES = [
-  { name: "Turbo Radical", desc: "Até 9.5s carros preparados de alta potência", icon: Zap },
-  { name: "Aspirados Street", desc: "Motores naturalmente aspirados de rua", icon: Wind },
-  { name: "Fun Cars", desc: "Categoria livre e recreativa", icon: Flag },
-  { name: "Motos 1000+", desc: "Duelo entre motocicletas de arrancada", icon: Gauge },
-  { name: "Novato", desc: "Porta de entrada para pilotos estreantes", icon: Users },
-  { name: "Pro Import", desc: "Importados turbinados de competição", icon: Fuel },
+  { name: "Arrancada 201 m · No Prep", desc: "A única modalidade oficial do Top Street RS", icon: Flag },
 ];
 
 function Sobre({ innerRef }) {
@@ -472,7 +465,7 @@ function Sobre({ innerRef }) {
             </h3>
             <p style={{ color: C.textMute, lineHeight: 1.7 }}>
               Um dos traçados mais tradicionais do automobilismo gaúcho recebe a etapa Top
-              Street com reta de 1/4 de milha homologada, cronometragem eletrônica e
+              Street com reta de 201 metros (1/8 de milha), cronometragem eletrônica e
               infraestrutura completa de box para equipes e pilotos.
             </p>
             <div className="grid grid-cols-2 gap-4 mt-8">
@@ -669,7 +662,7 @@ function Pilotos({ innerRef }) {
               {[
                 ["R$ 350", "Inscrição"],
                 ["24/08", "Prazo final"],
-                ["6", "Categorias"],
+                ["1", "Modalidade"],
               ].map(([n, l]) => (
                 <div
                   key={l}

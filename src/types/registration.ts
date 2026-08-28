@@ -1,19 +1,12 @@
-﻿export type PilotCategory =
-  | "no-prep-201"
-  | "arrancada"
-  | "track-day"
-  | "outra";
+export type PilotCategory = "no-prep-201";
 
 export const CATEGORY_LABELS: Record<PilotCategory, string> = {
-  "no-prep-201": "No Prep 201 metros",
-  arrancada: "Arrancada",
-  "track-day": "Track Day",
-  outra: "Outra categoria",
+  "no-prep-201": "Arrancada 201 metros · No Prep",
 };
 
-export const CATEGORY_OPTIONS: { value: PilotCategory; label: string }[] = (
-  Object.keys(CATEGORY_LABELS) as PilotCategory[]
-).map((value) => ({ value, label: CATEGORY_LABELS[value] }));
+export const CATEGORY_OPTIONS: { value: PilotCategory; label: string }[] = [
+  { value: "no-prep-201", label: CATEGORY_LABELS["no-prep-201"] },
+];
 
 export interface PilotRegistrationForm {
   fullName: string;
@@ -26,24 +19,11 @@ export interface PilotRegistrationForm {
 }
 
 export const EMPTY_REGISTRATION_FORM: PilotRegistrationForm = {
-  fullName: "",
-  cpf: "",
-  whatsapp: "",
-  vehicle: "",
-  carNumber: "",
-  category: "",
-  acceptedTerms: false,
+  fullName: "", cpf: "", whatsapp: "", vehicle: "", carNumber: "", category: "", acceptedTerms: false,
 };
 
-export type RegistrationFieldErrors = Partial<
-  Record<keyof PilotRegistrationForm, string>
->;
+export type RegistrationFieldErrors = Partial<Record<keyof PilotRegistrationForm, string>>;
 
-/**
- * Retorno esperado do backend após a inscrição.
- * `protocol` hoje é gerado no cliente (stub) ââ‚¬â€ quando o Supabase estiver
- * integrado, deve vir do registro criado na tabela `pilotos`.
- */
 export interface RegistrationResult {
   protocol: string;
   fullName: string;

@@ -15,6 +15,7 @@ Deno.serve(async (request) => {
     const body = await request.json();
     const required = ["fullName", "cpf", "whatsapp", "vehicle", "category"];
     if (required.some((field) => typeof body[field] !== "string" || !body[field].trim()) || body.acceptedTerms !== true) return json({ message: "Dados obrigatórios inválidos." }, 400);
+    if (body.category !== "no-prep-201") return json({ message: "A categoria deste evento é Arrancada 201 metros · No Prep." }, 400);
     const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
     const { data: event, error: eventError } = await admin.from("eventos").select("id").eq("ativo", true).order("data_evento", { ascending: true }).limit(1).maybeSingle();
     if (eventError) return json({ message: "Erro ao consultar evento.", details: eventError.message }, 500);

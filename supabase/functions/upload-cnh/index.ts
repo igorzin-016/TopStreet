@@ -12,8 +12,14 @@ Deno.serve(async (request) => {
     const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
     const { data: pilot } = await admin.from("pilotos").select("id").eq("resume_token_hash", await hash(token)).maybeSingle();
     if (!pilot) return json({ message: "Inscrição não encontrada." }, 404);
+    const bucket = admin.storage.from("documentos-pilotos");
+    const { data: existingBucket } = await admin.storage.getBucket("documentos-pilotos");
+    if (!existingBucket) {
+      const { error: bucketError } = await admin.storage.createBucket("documentos-pilotos", { public: false });
+      if (bucketError && !/already exists/i.test(bucketError.message)) return json({ message: "O armazenamento da CNH não está configurado.", details: bucketError.message }, 500);
+    }
     const extension = file.name.split(".").pop()?.toLowerCase() ?? "bin"; const path = `${pilot.id}/${crypto.randomUUID()}.${extension}`;
-    const upload = await admin.storage.from("documentos-pilotos").upload(path, file, { contentType: file.type, upsert: false });
+    const upload = await bucket.upload(path, file, { contentType: file.type, upsert: false });
     if (upload.error) return json({ message: "Não foi possível salvar a CNH.", details: upload.error.message }, 500);
     const { error } = await admin.from("pilotos").update({ cnh_path: path, cnh_filename: file.name, cnh_mime_type: file.type, cnh_size: file.size, cnh_uploaded_at: new Date().toISOString(), updated_at: new Date().toISOString() }).eq("id", pilot.id);
     if (error) return json({ message: "CNH salva, mas não foi possível atualizar o cadastro.", details: error.message }, 500);

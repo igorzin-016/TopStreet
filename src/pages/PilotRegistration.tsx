@@ -130,7 +130,10 @@ export default function PilotRegistration() {
       cnhForm.append("token", response.resumeToken);
       cnhForm.append("file", cnhFile);
       const { data: cnhResponse, error: cnhUploadError } = await supabase.functions.invoke("upload-cnh", { body: cnhForm });
-      if (cnhUploadError || !cnhResponse?.ok) throw new RegistrationError(cnhResponse?.message ?? "Cadastro criado, mas não foi possível enviar a CNH.");
+      if (cnhUploadError || !cnhResponse?.ok) {
+        const details = typeof cnhResponse?.details === "string" ? ` (${cnhResponse.details})` : cnhUploadError?.message ? ` (${cnhUploadError.message})` : "";
+        throw new RegistrationError(`${cnhResponse?.message ?? "Cadastro criado, mas não foi possível enviar a CNH."}${details}`);
+      }
       setResult(response);
     } catch (err) {
       setSubmitError(

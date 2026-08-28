@@ -6,18 +6,19 @@ export type CheckinResult = {
   piloto?: { nome: string; veiculo: string; categoria: string; checkinEm?: string };
 };
 
-/**
- * O token nunca é validado diretamente no navegador.
- * A Edge Function faz a validação e o consumo atômico no banco.
- */
 export async function processarCheckin(token: string): Promise<CheckinResult> {
   const cleanToken = token.trim();
   if (!cleanToken) return { ok: false, message: "QR Code vazio." };
-
-  const { data, error } = await supabase.functions.invoke("checkin", {
-    body: { token: cleanToken },
-  });
-
-  if (error) return { ok: false, message: "Não foi possível validar o QR Code." };
+  const { data, error } = await supabase.functions.invoke("checkin", { body: { token: cleanToken } });
+  if (error) {
+    const context = (error as { context?: unknown }).context;
+    if (context instanceof Response) {
+      try {
+        const body = await context.clone().json() as { message?: string };
+        return { ok: false, message: body.message ?? "Não foi possível validar o QR Code." };
+      } catch { /* usa a mensagem padrão */ }
+    }
+    return { ok: false, message: "Não foi possível validar o QR Code." };
+  }
   return data as CheckinResult;
 }

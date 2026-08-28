@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { LockKeyhole } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
@@ -6,6 +6,11 @@ export default function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      if (data.session) window.location.replace("/admin/inscricoes");
+    });
+  }, []);
   async function submit(event: FormEvent) {
     event.preventDefault();
     setError("");

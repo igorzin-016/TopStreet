@@ -9,11 +9,19 @@
       "destination": "/index.html"
     },
     {
+      "source": "/pagamento",
+      "destination": "/index.html"
+    },
+    {
       "source": "/admin",
       "destination": "/index.html"
     },
     {
       "source": "/admin/scanner",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin/inscricoes",
       "destination": "/index.html"
     }
   ]

@@ -41,6 +41,35 @@ create table if not exists public.checkins (
   created_at timestamptz not null default now()
 );
 
+insert into public.eventos (nome, data_evento)
+select 'Top Street - Tarumã', '2026-09-26'
+where not exists (
+  select 1 from public.eventos
+);
+
+alter table public.pilotos
+  add column if not exists evento_id uuid;
+
+update public.pilotos
+set evento_id = (select id from public.eventos order by created_at asc limit 1)
+where evento_id is null;
+
+alter table public.pilotos
+  alter column evento_id set not null;
+
+do $$
+begin
+  if not exists (
+    select 1
+    from pg_constraint
+    where conname = 'pilotos_evento_id_fkey'
+  ) then
+    alter table public.pilotos
+      add constraint pilotos_evento_id_fkey
+      foreign key (evento_id) references public.eventos(id);
+  end if;
+end $$;
+
 create index if not exists pilotos_evento_status_idx on public.pilotos(evento_id, status);
 create index if not exists pilotos_qr_hash_idx on public.pilotos(qr_token_hash);
 

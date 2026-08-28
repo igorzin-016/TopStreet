@@ -110,6 +110,10 @@ export default function PilotRegistration() {
     setSubmitError(null);
     try {
       const response = await submitPilotRegistration(form);
+      if (response.resumeToken) {
+        localStorage.setItem("topstreet_resume_token", response.resumeToken);
+        localStorage.setItem("topstreet_protocol", response.protocol);
+      }
       setResult(response);
     } catch (err) {
       setSubmitError(
@@ -134,7 +138,7 @@ export default function PilotRegistration() {
         {result ? (
           <RegistrationSuccess
             result={result}
-            onContinue={() => navigate("/passaporte")}
+            onContinue={() => navigate("/pagamento")}
           />
         ) : (
           <>
@@ -344,5 +348,4 @@ export default function PilotRegistration() {
     </div>
   );
 }
-
 

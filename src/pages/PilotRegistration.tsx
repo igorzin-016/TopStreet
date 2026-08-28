@@ -1,143 +1,348 @@
-import { FormEvent, useState } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  User,
+  IdCard,
+  Phone,
+  Car,
+  Hash,
+  Flag,
+  ShieldCheck,
+  ArrowRight,
+  ArrowLeft,
+  Loader2,
+} from "lucide-react";
 
-type PilotFormData = {
-  fullName: string;
-  cpf: string;
-  cnh: string;
-  vehicleModel: string;
-  plate: string;
-  federationNumber: string;
-  termsAccepted: boolean;
-};
+import { FormField, SelectField } from "../components/FormField";
+import { ProgressSteps } from "../components/ProgressSteps";
+import { RegistrationSuccess } from "../components/RegistrationSuccess";
+import {
+  submitPilotRegistration,
+  RegistrationError,
+} from "../lib/registration";
+import {
+  maskCPF,
+  maskWhatsApp,
+  maskCarNumber,
+  validateRegistrationForm,
+  hasErrors,
+} from "../lib/validation";
+import {
+  CATEGORY_OPTIONS,
+  EMPTY_REGISTRATION_FORM,
+  PilotRegistrationForm,
+  RegistrationFieldErrors,
+  RegistrationResult,
+} from "../types/registration";
 
-const initialFormData: PilotFormData = {
-  fullName: "",
-  cpf: "",
-  cnh: "",
-  vehicleModel: "",
-  plate: "",
-  federationNumber: "",
-  termsAccepted: false,
-};
+const FONT_DISPLAY = "'Space Grotesk', sans-serif";
+const FONT_MONO = "'JetBrains Mono', monospace";
 
-function formatCpf(value: string) {
-  const numbersOnly = value.replace(/\D/g, "").slice(0, 11);
-
-  return numbersOnly
-    .replace(/(\d{3})(\d)/, "$1.$2")
-    .replace(/(\d{3})(\d)/, "$1.$2")
-    .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-}
-
-function formatPlate(value: string) {
-  return value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 7);
-}
-
-export default function PilotRegistration() {
-  const [formData, setFormData] = useState<PilotFormData>(initialFormData);
-  const [submitted, setSubmitted] = useState(false);
-
-  function updateField<K extends keyof PilotFormData>(
-    field: K,
-    value: PilotFormData[K],
-  ) {
-    setFormData((current) => ({ ...current, [field]: value }));
-  }
-
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    console.log("Dados do piloto:", formData);
-    setSubmitted(true);
-  }
-
-  const inputClassName =
-    "w-full rounded-xl border border-white/10 bg-zinc-950 px-4 py-3.5 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-emerald-400 focus:ring-4 focus:ring-emerald-400/10";
-
+/* ------------------------------------------------------------------ */
+/*  HEADER                                                             */
+/* ------------------------------------------------------------------ */
+function Header({ onBack }: { onBack: () => void }) {
   return (
-    <main className="min-h-screen bg-zinc-950 px-4 py-6 text-zinc-100 sm:px-6">
-      <div className="mx-auto w-full max-w-xl">
-        <header className="mb-8">
-          <div className="mb-6 flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-400 text-xl font-black text-zinc-950 shadow-lg shadow-emerald-400/20">
-              EC
-            </div>
-            <div>
-              <p className="text-lg font-black tracking-tight text-white">
-                Easy<span className="text-emerald-400">Crow</span>
-              </p>
-              <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">
-                Motorsport access
-              </p>
-            </div>
-          </div>
-
-          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-emerald-300">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-            Inscrição do piloto
-          </div>
-          <h1 className="text-3xl font-black tracking-tight text-white sm:text-4xl">
-            Garanta seu acesso à pista.
-          </h1>
-          <p className="mt-3 max-w-md text-sm leading-6 text-zinc-400">
-            Preencha seus dados para iniciar o credenciamento do evento.
-          </p>
-        </header>
-
-        <section className="rounded-3xl border border-white/10 bg-zinc-900/80 p-5 shadow-2xl shadow-black/30 backdrop-blur sm:p-7">
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <label htmlFor="fullName" className="mb-2 block text-sm font-semibold text-zinc-200">Nome completo</label>
-              <input id="fullName" name="fullName" type="text" autoComplete="name" placeholder="Digite seu nome completo" value={formData.fullName} onChange={(event) => updateField("fullName", event.target.value)} required className={inputClassName} />
-            </div>
-
-            <div className="grid gap-5 sm:grid-cols-2">
-              <div>
-                <label htmlFor="cpf" className="mb-2 block text-sm font-semibold text-zinc-200">CPF</label>
-                <input id="cpf" name="cpf" type="text" inputMode="numeric" placeholder="000.000.000-00" value={formData.cpf} onChange={(event) => updateField("cpf", formatCpf(event.target.value))} required className={inputClassName} />
-              </div>
-              <div>
-                <label htmlFor="cnh" className="mb-2 block text-sm font-semibold text-zinc-200">CNH</label>
-                <input id="cnh" name="cnh" type="text" placeholder="Número da CNH" value={formData.cnh} onChange={(event) => updateField("cnh", event.target.value)} required className={inputClassName} />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="vehicleModel" className="mb-2 block text-sm font-semibold text-zinc-200">Veículo / modelo</label>
-              <input id="vehicleModel" name="vehicleModel" type="text" placeholder="Ex.: Honda Civic Si" value={formData.vehicleModel} onChange={(event) => updateField("vehicleModel", event.target.value)} required className={inputClassName} />
-            </div>
-
-            <div className="grid gap-5 sm:grid-cols-2">
-              <div>
-                <label htmlFor="plate" className="mb-2 block text-sm font-semibold text-zinc-200">Placa</label>
-                <input id="plate" name="plate" type="text" placeholder="ABC1D23" value={formData.plate} onChange={(event) => updateField("plate", formatPlate(event.target.value))} required className={`${inputClassName} uppercase`} />
-              </div>
-              <div>
-                <label htmlFor="federationNumber" className="mb-2 block text-sm font-semibold text-zinc-200">Número da Federação <span className="text-emerald-400">*</span></label>
-                <input id="federationNumber" name="federationNumber" type="text" placeholder="Número obrigatório" value={formData.federationNumber} onChange={(event) => updateField("federationNumber", event.target.value)} required className={`${inputClassName} border-emerald-400/40`} />
-              </div>
-            </div>
-
-            <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4 transition hover:border-emerald-400/40">
-              <input type="checkbox" checked={formData.termsAccepted} onChange={(event) => updateField("termsAccepted", event.target.checked)} required className="mt-0.5 h-5 w-5 shrink-0 accent-emerald-400" />
-              <span className="text-sm leading-5 text-zinc-400">
-                Declaro que li e aceito o <button type="button" className="font-semibold text-emerald-400 underline underline-offset-2">Regulamento de Prova</button> e os Termos de Responsabilidade.
-              </span>
-            </label>
-
-            <button type="submit" className="flex w-full items-center justify-center gap-3 rounded-xl bg-emerald-400 px-5 py-4 text-sm font-black uppercase tracking-wide text-zinc-950 shadow-xl shadow-emerald-400/20 transition hover:bg-emerald-300 focus:outline-none focus:ring-4 focus:ring-emerald-400/30 active:scale-[0.99]">
-              Avançar para pagamento <span aria-hidden="true">→</span>
-            </button>
-
-            {submitted && (
-              <p role="status" className="rounded-xl border border-emerald-400/20 bg-emerald-400/10 p-3 text-center text-sm text-emerald-300">
-                Formulário preenchido. A integração com o pagamento será feita na próxima etapa.
-              </p>
-            )}
-          </form>
-        </section>
-
-        <p className="mt-6 text-center text-xs text-zinc-600">Seus dados são utilizados exclusivamente para o credenciamento do evento.</p>
+    <header
+      className="sticky top-0 z-10 border-b"
+      style={{ borderColor: "#3A3836", background: "rgba(23,22,21,0.92)", backdropFilter: "blur(10px)" }}
+    >
+      <div className="max-w-[900px] mx-auto flex items-center justify-between px-4 sm:px-6 py-3">
+        <button
+          type="button"
+          onClick={onBack}
+          className="flex items-center gap-2 text-[#A6A196] hover:text-[#F3F1EA] transition-colors"
+        >
+          <ArrowLeft size={16} />
+          <span
+            className="uppercase text-sm font-bold tracking-wide text-[#F3F1EA]"
+            style={{ fontFamily: FONT_DISPLAY }}
+          >
+            Top <span style={{ color: "#E42313" }}>Street</span>
+          </span>
+        </button>
+        <span
+          className="text-[10px] sm:text-xs uppercase tracking-widest font-mono px-2.5 py-1 rounded-full border"
+          style={{ color: "#A6A196", borderColor: "#3A3836" }}
+        >
+          Etapa 1 de 2
+        </span>
       </div>
-    </main>
+    </header>
   );
 }
+
+/* ------------------------------------------------------------------ */
+/*  PAGE                                                                */
+/* ------------------------------------------------------------------ */
+export default function PilotRegistration() {
+  const navigate = useNavigate();
+
+  const [form, setForm] = useState<PilotRegistrationForm>(
+    EMPTY_REGISTRATION_FORM
+  );
+  const [errors, setErrors] = useState<RegistrationFieldErrors>({});
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [result, setResult] = useState<RegistrationResult | null>(null);
+
+  function updateField<K extends keyof PilotRegistrationForm>(
+    key: K,
+    value: PilotRegistrationForm[K]
+  ) {
+    setForm((prev) => ({ ...prev, [key]: value }));
+    if (errors[key]) {
+      setErrors((prev) => {
+        const next = { ...prev };
+        delete next[key];
+        return next;
+      });
+    }
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    const validation = validateRegistrationForm(form);
+    setErrors(validation);
+    if (hasErrors(validation)) return;
+
+    setSubmitting(true);
+    setSubmitError(null);
+    try {
+      const response = await submitPilotRegistration(form);
+      setResult(response);
+    } catch (err) {
+      setSubmitError(
+        err instanceof RegistrationError
+          ? err.message
+          : "NÃ£o foi possÃ­vel enviar sua inscriÃ§Ã£o agora. Tente novamente."
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  return (
+    <div className="min-h-screen" style={{ background: "#171615" }}>
+      <Header onBack={() => navigate("/")} />
+
+      <main className="max-w-[900px] mx-auto px-4 sm:px-6 py-8 sm:py-10">
+        <div className="mb-8">
+          <ProgressSteps current={result ? 2 : 0} />
+        </div>
+
+        {result ? (
+          <RegistrationSuccess
+            result={result}
+            onContinue={() => navigate("/passaporte")}
+          />
+        ) : (
+          <>
+            <div className="mb-8">
+              <span
+                className="inline-block text-[10px] uppercase tracking-widest font-mono px-2.5 py-1 rounded-full border mb-4"
+                style={{ color: "#FFB627", borderColor: "rgba(255,182,39,0.3)" }}
+              >
+                Top Street Â· TarumÃ£ Â· 26/09/2026
+              </span>
+              <h1
+                className="text-2xl sm:text-3xl font-bold uppercase text-[#F3F1EA]"
+                style={{ fontFamily: FONT_DISPLAY }}
+              >
+                Cadastro do piloto
+              </h1>
+              <p className="text-sm text-[#A6A196] mt-2">
+                Preencha seus dados para gerar seu passaporte digital do
+                evento.
+              </p>
+            </div>
+
+            <form
+              onSubmit={handleSubmit}
+              noValidate
+              className="rounded-xl border p-5 sm:p-8"
+              style={{ borderColor: "#3A3836", background: "#201F1D" }}
+            >
+              <div className="flex flex-col gap-5">
+                <FormField
+                  id="fullName"
+                  label="Nome completo"
+                  icon={User}
+                  required
+                  placeholder="Ex: JoÃ£o da Silva"
+                  autoComplete="name"
+                  value={form.fullName}
+                  error={errors.fullName}
+                  onChange={(e) => updateField("fullName", e.target.value)}
+                />
+
+                <div className="grid sm:grid-cols-2 gap-5">
+                  <FormField
+                    id="cpf"
+                    label="CPF"
+                    icon={IdCard}
+                    required
+                    placeholder="000.000.000-00"
+                    inputMode="numeric"
+                    autoComplete="off"
+                    value={form.cpf}
+                    error={errors.cpf}
+                    onChange={(e) => updateField("cpf", maskCPF(e.target.value))}
+                  />
+                  <FormField
+                    id="whatsapp"
+                    label="WhatsApp"
+                    icon={Phone}
+                    required
+                    placeholder="(00) 00000-0000"
+                    inputMode="numeric"
+                    autoComplete="tel"
+                    value={form.whatsapp}
+                    error={errors.whatsapp}
+                    onChange={(e) =>
+                      updateField("whatsapp", maskWhatsApp(e.target.value))
+                    }
+                  />
+                </div>
+
+                <FormField
+                  id="vehicle"
+                  label="VeÃ­culo / modelo"
+                  icon={Car}
+                  required
+                  placeholder="Ex: Chevrolet Opala 6cc"
+                  autoComplete="off"
+                  value={form.vehicle}
+                  error={errors.vehicle}
+                  onChange={(e) => updateField("vehicle", e.target.value)}
+                />
+
+                <div className="grid sm:grid-cols-2 gap-5">
+                  <FormField
+                    id="carNumber"
+                    label="NÃºmero do carro"
+                    icon={Hash}
+                    required
+                    placeholder="Ex: 07"
+                    inputMode="numeric"
+                    autoComplete="off"
+                    value={form.carNumber}
+                    error={errors.carNumber}
+                    onChange={(e) =>
+                      updateField("carNumber", maskCarNumber(e.target.value))
+                    }
+                  />
+                  <SelectField
+                    id="category"
+                    label="Categoria"
+                    icon={Flag}
+                    required
+                    placeholder="Selecione a categoria"
+                    options={CATEGORY_OPTIONS}
+                    value={form.category}
+                    error={errors.category}
+                    onChange={(e) =>
+                      updateField(
+                        "category",
+                        e.target.value as PilotRegistrationForm["category"]
+                      )
+                    }
+                  />
+                </div>
+
+                {/* Aceite dos termos */}
+                <label
+                  htmlFor="acceptedTerms"
+                  className="flex items-start gap-3 rounded-lg border p-4 cursor-pointer"
+                  style={{
+                    borderColor: errors.acceptedTerms ? "#E42313" : "#3A3836",
+                  }}
+                >
+                  <input
+                    id="acceptedTerms"
+                    type="checkbox"
+                    checked={form.acceptedTerms}
+                    aria-invalid={!!errors.acceptedTerms}
+                    aria-describedby={
+                      errors.acceptedTerms ? "acceptedTerms-error" : undefined
+                    }
+                    onChange={(e) =>
+                      updateField("acceptedTerms", e.target.checked)
+                    }
+                    className="mt-0.5 w-4 h-4 shrink-0 accent-[#E42313]"
+                  />
+                  <span className="text-sm text-[#A6A196] leading-relaxed">
+                    Declaro que li e aceito o{" "}
+                    <a
+                      href="/regulamento"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="underline"
+                      style={{ color: "#FFB627" }}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      Regulamento de Prova
+                    </a>{" "}
+                    e os Termos de Responsabilidade.
+                  </span>
+                </label>
+                {errors.acceptedTerms && (
+                  <span
+                    id="acceptedTerms-error"
+                    role="alert"
+                    className="text-xs -mt-3"
+                    style={{ color: "#E42313" }}
+                  >
+                    {errors.acceptedTerms}
+                  </span>
+                )}
+
+                {/* Card de seguranÃ§a */}
+                <div
+                  className="flex items-start gap-3 rounded-lg border p-4"
+                  style={{ borderColor: "#3A3836", background: "#171615" }}
+                >
+                  <ShieldCheck size={18} color="#6E6A60" className="mt-0.5 shrink-0" />
+                  <p className="text-xs text-[#6E6A60] leading-relaxed">
+                    Seus dados serÃ£o utilizados exclusivamente para inscriÃ§Ã£o,
+                    credenciamento e controle de acesso ao evento.
+                  </p>
+                </div>
+
+                {submitError && (
+                  <div
+                    role="alert"
+                    className="text-sm rounded-lg border px-4 py-3"
+                    style={{ borderColor: "#E42313", color: "#E42313", background: "rgba(228,35,19,0.08)" }}
+                  >
+                    {submitError}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="w-full flex items-center justify-center gap-2 rounded-lg py-4 text-sm font-bold uppercase tracking-wide text-white transition-transform duration-150 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
+                  style={{ background: "#E42313", fontFamily: FONT_DISPLAY }}
+                >
+                  {submitting ? (
+                    <>
+                      <Loader2 size={16} className="animate-spin" />
+                      Enviando...
+                    </>
+                  ) : (
+                    <>
+                      Gerar passaporte digital <ArrowRight size={16} />
+                    </>
+                  )}
+                </button>
+              </div>
+            </form>
+          </>
+        )}
+      </main>
+    </div>
+  );
+}
+
+

@@ -369,7 +369,7 @@ function Hero({ innerRef, onNavigate }) {
         <img
           src={LOGO_SRC}
           alt="Top Street"
-          className="w-full max-w-[min(620px,88vw)] h-auto object-contain"
+          className="w-full max-w-[min(390px,72vw)] h-auto object-contain"
           style={{ filter: "drop-shadow(0 12px 28px rgba(0,0,0,0.32))" }}
         />
         <p

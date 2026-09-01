@@ -1,4 +1,4 @@
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+﻿import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { CATEGORY_LABELS, RegistrationResult } from "../types/registration";
 
 function SummaryItem({ label, value }: { label: string; value: string }) {
